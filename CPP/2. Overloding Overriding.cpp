@@ -31,10 +31,32 @@ struct Statinfo
 // - Knight를 생성하면 -> Player의 생성자? Knight의 생성자?
 // -> 솔로몬의 선택 ! 그냥 둘 다 호출하자 !
 
-class Player
+// GameObject를 최상위로 둔다 (보통 게임을 만들 때)
+// - Creature
+// -- Player, Monster, Npc, Pet
+// 
+// - Projectile 
+// -- Arrow, Fireball
+// - Env (채집물)
+
+// Item
+// - Weapon
+// -- Sword, Bow
+// - Armor
+// -- Helment, Boots, Armor
+// - Consumable
+// - Potion, Scroll
+
+class GameObject
 {
 public:
-	Player() 
+	int _objectid;
+};
+
+class Player : public GameObject
+{
+public:
+	Player()
 	{
 		_hp = 0;
 		_attack = 0;
@@ -103,12 +125,12 @@ public:
 
 
 	// 재정의 : 부모님의 유산을 거부하고 새로운 이름으로 만든 것.
-	void Move() 
-	{ 
-		std::cout << "Knight Move 호출" << std::endl; 
+	void Move()
+	{
+		std::cout << "Knight Move 호출" << std::endl;
 	}
 
-public : 
+public:
 	int _stamina;
 };
 
