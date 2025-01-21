@@ -23,9 +23,23 @@
 
 //operator은 결국 왼쪽에는 클래스. 오른쪽에는 멤버변수가 와야한다..?
 
+
+// 복사 대입 연산자
+// - 대입 연산자가 나온 김에 [복사 대입 연산자]에 대해 알아보자.
+// 용어가 좀 헷갈린다. [복사 생성자] [대입 연산자] [복사 대입 연산자] @_@
+// - 복사 대입 연산자 = 대입 연산자 중, 자기 자신의 참조 타입을 인자로 받은 것.
+
+// 기타
+// - 모든 연산자를 다 오버로딩 할 수 있는 것은 아니다. (:: . .* 이런 건 안 됨)
+// - 모든 연산자가 다 2개 항이 있는 것 아님. ++ -- 가 대표적 (단항 연산자)
+// - 증갑 연산자 ++ --
+// -- 전위형 (++a) operator++()
+// -- 후위형 (a++) operator++(int)
+
 class Position
 {
 public: 
+
 	Position operator+(const Position& arg) // operator =  pos와 pos2의 결과물을 뱉어주게 하는 것..?
 	{
 		Position pos;
@@ -48,11 +62,40 @@ public:
 		return _x == arg._x && _y == arg._y;
 	}
 
-	//void operator=(int arg)
-	//{
-	//	_x = arg;
-	//	_y = arg;
-	//}
+	Position& operator=(int arg) // operator은 void 반환형이 아닌 자기 자신 참조형으로 만들어야함.
+	{
+		_x = arg;
+		_y = arg;
+
+		//Position* this = 내자신의주소;
+		return *this; // 내 자신의 주소를 가리킨 후 가져오고 싶다? this 포인터를 return 반환하면 됨
+	}
+
+	//[복사 생성자] [복사 대입 연산자] 등 특별 대우를 받는 이유는,
+	// 말 그대로 객체가 '복사' 되길 원하는 특징 때문
+	// TODO ) 동적할당 시간에 더 자세히 알아볼 것
+	Position& operator=(const Position& arg) // operator은 void 반환형이 아닌 자기 자신 참조형으로 만들어야함.
+	{
+		_x = arg._x;
+		_y = arg._y;
+
+		return *this; // 내 자신의 주소를 가리킨 후 가져오고 싶다? this 포인터를 return 반환하면 됨
+	}
+
+	Position& operator++()
+	{
+		_x++;
+		_y++;
+		return *this;
+	}
+
+	Position operator++(int)
+	{
+		Position ret = *this;
+		_x++;
+		_y++;
+		return ret;
+	}
 
 public:
 	int _x;
@@ -75,12 +118,13 @@ Position operator+(int a, const Position& b)
 //	a._y = b;
 //}
 
+
+
 int main()
 {
 	int a = 1;
 	int b = 2;
-
-	int c = a + 3.01f;
+	int c = (a++);
 
 	Position pos;
 	pos._x = 0;
@@ -98,8 +142,19 @@ int main()
 	bool isSame = (pos3 == pos4); // 클래스끼리 비교하려면 operator를 구현하고 사용하는 것이다!!!
 
 	Position pos5;
-	pos5 = 5;
+	pos3 = (pos5 = 5);
+
 	//pos.operator+(pos2);
+
+	pos3++;
+
+	++(++pos3);
+	// (const Pos&)줘~		(Pos) 복사값 줄게~
+	pos5 = pos3++; //임시 객체를 참조하지 못하는 상황이 일어나면 const를 붙여줘라?
+	
+
+	++(++pos3);
+	//pos3 = posoperator+(pos2);
 
 
 	return 0;
