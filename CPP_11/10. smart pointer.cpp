@@ -148,5 +148,10 @@ int main()
 	//k1->_target = nullptr;
 	//k2->_target = nullptr; // shared_ptr을 쓸 거면 순환 구조일시 꼭 꼭 꼭 끝날 때 nullptr을 적어줘라. (근데 이러면 스마트 포인터를 왜 쓰지?) (순환구조는 위에있는 내용)
 
+
+	//unique_ptr 권한을 함부로 넘기게 하지 않겠다!!! 복사하는 부분만 막힌 것이다.
+	unique_ptr<Knight> uptr = make_unique<Knight>();
+	unique_ptr<Knight> uptr2 = std::move(uptr);
+
 	return 0;
 }
