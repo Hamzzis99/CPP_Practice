@@ -56,4 +56,15 @@ struct WindowInfo
 	bool	windowed; // 창모드 or 전체화면
 };
 
+struct Vertex
+{
+	Vec3 pos; //Vec3 = float 3개
+	Vec4 color; // Vec4 = float 4개 rgba
+};
+
+//자주 활용할 것들을 빼두기.
+#define DEVICE			GEngine->GetDevice()->GetDevice()
+#define CMD_LIST		GEngine->GetCmdQueue()->GetCmdList()
+#define ROOT_SIGNATURE	GEngine->GetRootSignature()->GetSignature()
+
 extern unique_ptr<class Engine> GEngine; //class Engine <- 전방선언
