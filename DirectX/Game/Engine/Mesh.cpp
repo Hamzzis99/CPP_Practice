@@ -11,7 +11,8 @@ void Mesh::Init(vector<Vertex>& vec)
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
 
-	DEVICE->CreateCommittedResource(
+	//디바이스를 통해서 작업하는 이 부분을 공부할 필요가 있다.
+	DEVICE->CreateCommittedResource( // 영역 할당 (GDDR4 RAM 할당 부분)
 		&heapProperty,
 		D3D12_HEAP_FLAG_NONE,
 		&desc,
@@ -24,7 +25,7 @@ void Mesh::Init(vector<Vertex>& vec)
 	void* vertexDataBuffer = nullptr;
 	CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
 	_vertexBuffer->Map(0, &readRange, &vertexDataBuffer);
-	::memcpy(vertexDataBuffer, &vec[0], bufferSize);
+	::memcpy(vertexDataBuffer, &vec[0], bufferSize); //GPU쪽에서 알아서 알아듣고 복사하게 해주는 역할
 	_vertexBuffer->Unmap(0, nullptr);
 
 	// Initialize the vertex buffer view.
@@ -40,5 +41,14 @@ void Mesh::Render()
 {
 	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
+	
+	// TODO
+	// 1) Buffer에다가 데이터 세팅
+	// 2) Buffer의 주소를 register에다가 전송 
+	// 레지스터가 데이터를 밀어넣는 부분? 맞나?
+	GEngine->GetCB()->PushData(0, &_transform, sizeof(_transform));
+	GEngine->GetCB()->PushData(1, &_transform, sizeof(_transform));
+
+
 	CMD_LIST->DrawInstanced(_vertexCount, 1, 0, 0);
 }

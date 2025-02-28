@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
+#include "Engine.h"
 
 CommandQueue::~CommandQueue()
 {
@@ -68,6 +69,10 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 		_swapChain->GetBackRTVBuffer().Get(),
 		D3D12_RESOURCE_STATE_PRESENT, // 화면 출력 Before
 		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물 After
+
+	// 서명 해주는 것.
+	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get()); 
+	GEngine->GetCB()->Clear(); //Clear할 때 _currentindex가 초기화가 됨.
 
 	_cmdList->ResourceBarrier(1, &barrier);
 

@@ -1,3 +1,4 @@
+//EnginePch.h
 #pragma once
 
 // 각종 include
@@ -60,6 +61,11 @@ struct Vertex
 {
 	Vec3 pos; //Vec3 = float 3개
 	Vec4 color; // Vec4 = float 4개 rgba
+};
+
+struct Transform
+{
+	Vec4 offset; // Engine.cpp의 _cb->Init(sizeof(Transform), 256); 부분 선언
 };
 
 //자주 활용할 것들을 빼두기.
