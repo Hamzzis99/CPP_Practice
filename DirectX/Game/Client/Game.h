@@ -1,5 +1,5 @@
-//Game.h
 #pragma once
+
 class Game
 {
 public:

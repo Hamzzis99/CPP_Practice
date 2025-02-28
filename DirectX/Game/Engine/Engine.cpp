@@ -1,7 +1,5 @@
-//Engine.cpp
 #include "pch.h"
 #include "Engine.h"
-
 
 void Engine::Init(const WindowInfo& info)
 {
@@ -22,8 +20,8 @@ void Engine::Init(const WindowInfo& info)
 	_device->Init();
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
-	_rootSignature->Init(_device->GetDevice());
-	_cb->Init(sizeof(Transform), 256); // 쉐이더와 맞춰주면 됨.
+	_rootSignature->Init();
+	_cb->Init(sizeof(Transform), 256);
 	_tableDescHeap->Init(256);
 }
 
@@ -31,7 +29,7 @@ void Engine::Render()
 {
 	RenderBegin();
 
-	//TODO : 나머지 물체들 그려준다 Mash가 들어가야 하는 부분?
+	// TODO : 나머지 물체들 그려준다
 
 	RenderEnd();
 }
@@ -51,7 +49,6 @@ void Engine::ResizeWindow(int32 width, int32 height)
 	_window.width = width;
 	_window.height = height;
 
-	//:: 우리가 작
 	RECT rect = { 0, 0, width, height };
 	::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 	::SetWindowPos(_window.hwnd, 0, 100, 100, width, height, 0);

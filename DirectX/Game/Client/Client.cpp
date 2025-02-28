@@ -6,9 +6,10 @@
 #include "Game.h"
 
 #define MAX_LOADSTRING 100
-WindowInfo GWindowInfo;
 
 // 전역 변수:
+WindowInfo GWindowInfo;
+
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
@@ -48,8 +49,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     GWindowInfo.height = 600;
     GWindowInfo.windowed = true;
 
-    //Game* game = new Game(); // 동적할당은 아래와 같은 스마트포인터처럼
-    unique_ptr<Game> game = make_unique<Game>(); // 스마트포인터 (공부 필요)
+    unique_ptr<Game> game = make_unique<Game>();
     game->Init(GWindowInfo);
 
     // 기본 메시지 루프입니다:
@@ -60,16 +60,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             if (msg.message == WM_QUIT)
                 break;
 
-            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
         }
 
-
-        // TODO
-        game->Update(); // 루프를 돌 때마다 업데이트를 해주는 것.
+		// TODO
+        game->Update();
     }
 
     return (int) msg.wParam;

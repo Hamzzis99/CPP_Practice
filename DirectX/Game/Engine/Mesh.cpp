@@ -1,4 +1,3 @@
-//mesh.cpp
 #include "pch.h"
 #include "Mesh.h"
 #include "Engine.h"
@@ -9,38 +8,27 @@ void Mesh::Init(const vector<Vertex>& vertexBuffer, const vector<uint32>& indexB
 	CreateIndexBuffer(indexBuffer);
 }
 
-// 그려주는 부분 CMD_LIST를 이용
-// CommandQueue.h의 RenderEnd(0 부분이 실행 될 때 같이 실행 됨.
 void Mesh::Render()
 {
 	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//아래에 있는 CMD_LIST 두개를 조합해서 버퍼를 이용해가지고 도형을 그린다.
 	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
 	CMD_LIST->IASetIndexBuffer(&_indexBufferView);
-	
+
 	// TODO
 	// 1) Buffer에다가 데이터 세팅
-	// 2) TableDescHeap에다가 CBV 전달.
+	// 2) TableDescHeap에다가 CBV 전달
 	// 3) 모두 세팅이 끝났으면 TableDescHeap 커밋
-	// 스케일과 다른 방향으로?
-
-	// 도형을 만드는 것. 아~~~~ 이해 가능하겠다 이제
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE handle = GEngine->GetCB()->PushData(0, &_transform, sizeof(_transform));
 		GEngine->GetTableDescHeap()->SetCBV(handle, CBV_REGISTER::b0);
+
+		GEngine->GetTableDescHeap()->SetSRV(_tex->GetCpuHandle(), SRV_REGISTER::t0);
 	}
-	//{ 도형2
-	//	D3D12_CPU_DESCRIPTOR_HANDLE handle = GEngine->GetCB()->PushData(0, &_transform, sizeof(_transform));
-	//	GEngine->GetTableDescHeap()->SetCBV(handle, CBV_REGISTER::b1);
-	//}
 
 	GEngine->GetTableDescHeap()->CommitTable();
 
-	//CMD_LIST->DrawInstanced(_vertexCount, 1, 0, 0);
 	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0);
 }
-
-// 인덱스 버퍼와 버텍스버퍼 지정은 코드가 다를 게 얼마 없다.
 
 void Mesh::CreateVertexBuffer(const vector<Vertex>& buffer)
 {
@@ -70,7 +58,6 @@ void Mesh::CreateVertexBuffer(const vector<Vertex>& buffer)
 	_vertexBufferView.StrideInBytes = sizeof(Vertex); // 정점 1개 크기
 	_vertexBufferView.SizeInBytes = bufferSize; // 버퍼의 크기	
 }
-
 
 void Mesh::CreateIndexBuffer(const vector<uint32>& buffer)
 {

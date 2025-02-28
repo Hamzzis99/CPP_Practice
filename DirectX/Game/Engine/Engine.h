@@ -1,4 +1,3 @@
-//Engine.h
 #pragma once
 
 #include "Device.h"
@@ -8,13 +7,14 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "ConstantBuffer.h"
-#include "TableDescripotrHeap.h"
+#include "TableDescriptorHeap.h"
+#include "Texture.h"
 
 class Engine
 {
 public:
 
-	void Init(const WindowInfo& window);
+	void Init(const WindowInfo& info);
 	void Render();
 
 public:

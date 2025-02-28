@@ -1,5 +1,5 @@
-//SwapChain.h
 #pragma once
+
 
 // 교환 사슬
 // [외주 과정]
@@ -20,7 +20,7 @@
 // - Double Buffering!
 
 // - [0] [1]
-// 현재 화면 [0]  <-> GPU 작업중 [1] BackBuffer
+// 현재 화면 [1]  <-> GPU 작업중 [1] BackBuffer
 
 class SwapChain
 {
@@ -41,11 +41,11 @@ private:
 
 private:
 	ComPtr<IDXGISwapChain>	_swapChain;
-
-	ComPtr<ID3D12Resource>	_rtvBuffer[SWAP_CHAIN_BUFFER_COUNT]; // renderTargets = 그릴 대상이다.
+	
+	ComPtr<ID3D12Resource>			_rtvBuffer[SWAP_CHAIN_BUFFER_COUNT];
 	ComPtr<ID3D12DescriptorHeap>	_rtvHeap;
 	D3D12_CPU_DESCRIPTOR_HANDLE		_rtvHandle[SWAP_CHAIN_BUFFER_COUNT];
 
-	uint32					_backBufferIndex = 0; // 뒷 작업을 하는 애가 누구인가 자꾸 추적하는 것.
+	uint32					_backBufferIndex = 0;
 };
 

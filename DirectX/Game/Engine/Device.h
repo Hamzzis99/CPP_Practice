@@ -1,13 +1,12 @@
-//Device.h
-
 #pragma once
-//Device -> 인력사무소 역할
+
+
+// 인력 사무소
 class Device
 {
 public:
-	void Init(); //초기화를 하고난 뒤.
+	void Init();
 
-	//Get 함수로 꺼내쓸 수 있게 하기.
 	ComPtr<IDXGIFactory> GetDXGI() { return _dxgi; }
 	ComPtr<ID3D12Device> GetDevice() { return _device; }
 
