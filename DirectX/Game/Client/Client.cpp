@@ -6,6 +6,7 @@
 #include "Game.h"
 
 #define MAX_LOADSTRING 100
+WindowInfo GWindowInfo;
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
@@ -43,9 +44,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
+    GWindowInfo.width = 800;
+    GWindowInfo.height = 600;
+    GWindowInfo.windowed = true;
+
     //Game* game = new Game(); // 동적할당은 아래와 같은 스마트포인터처럼
     unique_ptr<Game> game = make_unique<Game>(); // 스마트포인터 (공부 필요)
-    game->Init();
+    game->Init(GWindowInfo);
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -122,6 +127,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+
+   GWindowInfo.hwnd = hWnd;
 
    return TRUE;
 }
