@@ -73,6 +73,10 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 	// 서명 해주는 것.
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get()); 
 	GEngine->GetCB()->Clear(); //Clear할 때 _currentindex가 초기화가 됨.
+	GEngine->GetTableDescHeap()->Clear();
+
+	ID3D12DescriptorHeap* descHeap = GEngine->GetTableDescHeap()->GetDescriptorHeap().Get();
+	_cmdList->SetDescriptorHeaps(1, &descHeap); //선행 힙을 정해주는 것이다.
 
 	_cmdList->ResourceBarrier(1, &barrier);
 
