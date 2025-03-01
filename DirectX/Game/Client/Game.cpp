@@ -53,6 +53,16 @@ void Game::Update()
 
 	{
 		Transform t;
+		t.offset = Vec4(0.25f, 0.25f, 0.2f, 0.f); // 0.5 + 0.2 = 0.7 뒤로 가는 것을 볼 수 있음.
+		mesh->SetTransform(t);
+
+		mesh->SetTexture(texture);
+
+		mesh->Render();
+	}
+
+	{
+		Transform t;
 		t.offset = Vec4(0.f, 0.f, 0.f, 0.f);
 		mesh->SetTransform(t);
 
@@ -60,6 +70,8 @@ void Game::Update()
 
 		mesh->Render();
 	}
+
+
 
 	GEngine->RenderEnd();
 }
