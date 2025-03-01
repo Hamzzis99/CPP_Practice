@@ -3,7 +3,10 @@
 #include "Engine.h"
 #include "Material.h"
 
-shared_ptr<Mesh> mesh = make_shared<Mesh>();
+#include "GameObject.h"
+#include "MeshRenderer.h"
+
+shared_ptr<GameObject> gameObject = make_shared<GameObject>(); // 조립의 끝판왕. 마지막이다?
 
 
 void Game::Init(const WindowInfo& info)
@@ -36,25 +39,40 @@ void Game::Init(const WindowInfo& info)
 		indexVec.push_back(3);
 	}
 
-	mesh->Init(vec, indexVec);
+	// 오늘 테스트
+	gameObject->Init(); // Transform
 
-	shared_ptr<Shader> shader = make_shared<Shader>();
-	shared_ptr<Texture> texture = make_shared<Texture>();
-	shader->Init(L"..\\Resources\\Shader\\default.hlsli");
-	texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
+	//게임 오브젝트 추가 하는 것.
+	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+	{
+		shared_ptr<Mesh> mesh = make_shared<Mesh>();
+		mesh->Init(vec, indexVec);
+		meshRenderer->SetMesh(mesh);
+	}
 
-	// material이 쉐이더와 텍스처가 묶어서 같이 행동을 함.
-	// 즉 여기가 material을 묶는 것이다.
-	shared_ptr<Material> material = make_shared<Material>();
-	material->SetShader(shader);
-	material->SetFloat(0, 0.3f);
-	material->SetFloat(1, 0.4f);
-	material->SetFloat(2, 0.1f);
-	material->SetTexture(0, texture);
-	mesh->SetMaterial(material);
+	{
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shared_ptr<Texture> texture = make_shared<Texture>();
+		shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+		texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
+
+		// material이 쉐이더와 텍스처가 묶어서 같이 행동을 함.
+		// 즉 여기가 material을 묶는 것이다.
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetShader(shader);
+		material->SetFloat(0, 0.3f);
+		material->SetFloat(1, 0.4f);
+		material->SetFloat(2, 0.1f);
+		material->SetTexture(0, texture);
+		meshRenderer->SetMaterial(material);
+	}
+
+	gameObject->AddComponent(meshRenderer);
 
 	GEngine->GetCmdQueue()->WaitSync();
 }
+	
+
 
 void Game::Update()
 {
@@ -62,35 +80,7 @@ void Game::Update()
 
 	GEngine->RenderBegin();
 
-	{
-		//콘스턴트 버퍼에다 담은 오프셋
-		static Transform t = {};
-		
-		if (INPUT->GetButton(KEY_TYPE::W))
-			t.offset.y += 1.f * DELTA_TIME;
-		if (INPUT->GetButton(KEY_TYPE::S))
-			t.offset.y -= 1.f * DELTA_TIME;
-		if (INPUT->GetButton(KEY_TYPE::A))
-			t.offset.x -= 1.f * DELTA_TIME;
-		if (INPUT->GetButton(KEY_TYPE::D))
-			t.offset.x += 1.f * DELTA_TIME;
-
-		mesh->SetTransform(t);
-
-		mesh->Render(); // Mesh가 Render 하면서 머테리얼도 업데이트 된다.
-	}
-
-	//{
-	//	Transform t;
-	//	t.offset = Vec4(0.f, 0.f, 0.f, 0.f);
-	//	mesh->SetTransform(t);
-
-	//	mesh->SetTexture(texture);
-
-	//	mesh->Render();
-	//}
-
-
+	gameObject->Update();
 
 	GEngine->RenderEnd();
 }
