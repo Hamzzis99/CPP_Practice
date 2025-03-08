@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 // VK -> 윈도우의 조작키
 enum class KEY_TYPE
@@ -13,6 +12,8 @@ enum class KEY_TYPE
 	A = 'A',
 	S = 'S',
 	D = 'D',
+	Q = 'Q',
+	E = 'E',
 };
 
 enum class KEY_STATE

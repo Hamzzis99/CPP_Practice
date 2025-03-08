@@ -1,9 +1,10 @@
 #pragma once
 
-enum class COMPONENT_TYPE : uint8
+enum class COMPONENT_TYPE : uint8 //컴포넌트는 게임 오브젝트들을 넣는다?
 {
 	TRANSFORM,
 	MESH_RENDERER,
+	CAMERA,
 	// ...
 	MONO_BEHAVIOUR, // 꼭 마지막에 등장해야한다 이유는?
 	END,
@@ -29,6 +30,7 @@ public:
 	virtual void Start() {}
 	virtual void Update() {} // 모든 물체가 전부 업데이트를 한 뒤에
 	virtual void LateUpdate() {} // 시점분리?? 
+	virtual void FinalUpdate() {} // 엔진에서만 활용하는 마지막 단계.
 
 public:
 	COMPONENT_TYPE GetType() { return _type; } // 내가 어떤 타입인지

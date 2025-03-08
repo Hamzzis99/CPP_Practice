@@ -10,9 +10,13 @@ public:
 	void Start();
 	void Update();
 	void LateUpdate();
+	void FinalUpdate();
 
 	void AddGameObject(shared_ptr<GameObject> gameObject);
 	void RemoveGameObject(shared_ptr<GameObject> gameObject);
+
+	// 벡터에 const 레퍼런스를 반환하는 것.
+	const vector<shared_ptr<GameObject>>& GetGameObjects() { return _gameObjects; }
 
 private:
 	vector<shared_ptr<GameObject>> _gameObjects;

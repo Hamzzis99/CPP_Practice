@@ -22,7 +22,7 @@ void Engine::Init(const WindowInfo& info)
 	_depthStencilBuffer->Init(_window);
 
 
-	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformMatrix), 256);
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformParams), 256);
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);
 
 	ResizeWindow(info.width, info.height);
@@ -35,9 +35,12 @@ void Engine::Init(const WindowInfo& info)
 
 void Engine::Update() // 매 프레임마다 업데이트 해야하는 부분들을 적는 것.
 {
+	// Finale Update까지 다 마무리 지은 다음에!
 	GET_SINGLE(Input)->Update();
 	GET_SINGLE(Timer)->Update();
+	GET_SINGLE(SceneManager)->Update();
 
+	// 그 뒤에 렌더가 실행되는 것이 핵심적인 부분!
 	Render();
 	ShowFps();
 }
@@ -46,7 +49,7 @@ void Engine::Render()
 {
 	RenderBegin();
 
-	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(SceneManager)->Render();
 
 	// TODO : 나머지 물체들 그려준다
 

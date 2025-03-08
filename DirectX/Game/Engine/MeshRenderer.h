@@ -13,8 +13,6 @@ public:
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
 	void SetMaterial(shared_ptr<Material> material) { _material = material; }
 
-	virtual void Update() override { Render(); } // 간략하게 렌더를 함수?
-
 	void Render();
 
 private:
