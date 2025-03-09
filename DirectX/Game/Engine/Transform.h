@@ -25,7 +25,7 @@ public:
 	const Vec3& GetLocalScale() { return _localScale; }
 
 	const Matrix& GetLocalToWorldMatrix() { return _matWorld; }
-	const Vec3& GetWorldPosition() { return _matWorld.Translation(); } // 41 42 43 추출 그게 월드포지션을 구한다..? 뭔 소리야
+	Vec3 GetWorldPosition() { return _matWorld.Translation(); } // 41 42 43 추출 그게 월드포지션을 구한다..? 뭔 소리야
 
 	// 어떤 물체를 바라보는 방향으로 가야할 때 계산할 필요 없이 오로지 룩벡터로만 이동하는데 사용하기 좋음.
 	// 임시 값을 뱉기 때문에 const를 안 단거임.

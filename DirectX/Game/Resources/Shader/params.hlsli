@@ -4,7 +4,7 @@
 
 struct LightColor
 {
-    float4 deffuse;
+    float4 diffuse;
     float4 ambient;
     float4 specular;
 };
@@ -17,9 +17,8 @@ struct LightInfo
     int lightType;
     float range;
     float angle;
-    int padding; // 페딩이란.
+    int padding;
 };
-
 
 cbuffer GLOBAL_PARAMS : register(b0)
 {
@@ -35,7 +34,7 @@ cbuffer TRANSFORM_PARAMS : register(b1) // Transform과 관련된 것을 넣은 것.
     row_major matrix g_matView;
     row_major matrix g_matProjection;
     row_major matrix g_matWV;
-    row_major matrix matWVP; // 매트릭스인데 이름은 WVP라는 것.
+    row_major matrix g_matWVP; // 매트릭스인데 이름은 WVP라는 것.
 };
 
 cbuffer MATERIAL_PARAMS : register(b2) // 머테리얼에게 전달할 값들.
