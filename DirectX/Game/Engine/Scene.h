@@ -12,6 +12,11 @@ public:
 	void LateUpdate();
 	void FinalUpdate();
 
+private:
+	void PushLightData(); //Push, GPU率栏肺 老阑 该变促.
+
+public:
+	void Render();
 	void AddGameObject(shared_ptr<GameObject> gameObject);
 	void RemoveGameObject(shared_ptr<GameObject> gameObject);
 

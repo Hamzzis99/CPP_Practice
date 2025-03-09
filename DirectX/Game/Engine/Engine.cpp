@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Timer.h"
 #include "SceneManager.h"
+#include "Light.h"
 
 void Engine::Init(const WindowInfo& info)
 {
@@ -22,8 +23,9 @@ void Engine::Init(const WindowInfo& info)
 	_depthStencilBuffer->Init(_window);
 
 
-	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformParams), 256);
-	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(LightParams), 1); // 여러번 교체하는 게 아니기 때문에 1.
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(TransformParams), 256);
+	CreateConstantBuffer(CBV_REGISTER::b2, sizeof(MaterialParams), 256);
 
 	ResizeWindow(info.width, info.height);
 

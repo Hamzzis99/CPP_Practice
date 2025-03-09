@@ -27,8 +27,9 @@ public:
 	const Matrix& GetLocalToWorldMatrix() { return _matWorld; }
 	const Vec3& GetWorldPosition() { return _matWorld.Translation(); } // 41 42 43 추출 그게 월드포지션을 구한다..? 뭔 소리야
 
-	//어떤 물체를 바라보는 방향으로 가야할 때 계산할 필요 없이 오로지 룩벡터로만 이동하는데 사용하기 좋음.
-	//임시 값을 뱉기 때문에 const를 안 단거임.
+	// 어떤 물체를 바라보는 방향으로 가야할 때 계산할 필요 없이 오로지 룩벡터로만 이동하는데 사용하기 좋음.
+	// 임시 값을 뱉기 때문에 const를 안 단거임.
+	// 회전값을 이용하여 벡터를 구한 것.
 	Vec3 GetRight() { return _matWorld.Right(); } // 카메라 위치 좌표 right
 	Vec3 GetUp() { return _matWorld.Up(); } // 카메라 위
 	Vec3 GetLook() { return _matWorld.Backward(); } // 바라보는 방향

@@ -41,8 +41,14 @@ void Transform::PushData() //
 	//WVP를 만들어 곱해야한다. 하지만 World는 완성됐기에 View와 Projection을 구현한 것이다.
 
 	//월드행렬과 뷰행렬을 곱셈하여 카메라 좌표계를 만든 것.
-	Matrix matWVP = _matWorld * Camera::S_MatView * Camera::S_MatProjection; // Projection
-	CONST_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&matWVP, sizeof(matWVP)); 
+	TransformParams transformParams = {}; 
+	transformParams.matWorld = _matWorld;
+	transformParams.matView = Camera::S_MatView;
+	transformParams.matProjection = Camera::S_MatProjection;
+	transformParams.matWV = _matWorld * Camera::S_MatView;
+	transformParams.matWVP = _matWorld * Camera::S_MatView * Camera::S_MatProjection;
+
+	CONST_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&transformParams, sizeof(transformParams));
 }
 
 

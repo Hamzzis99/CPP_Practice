@@ -89,9 +89,18 @@ void ConstantBuffer::PushData(void* buffer, uint32 size)
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GetCpuHandle(_currentIndex);
 	GEngine->GetTableDescHeap()->SetCBV(cpuHandle, _reg);
 
-	_currentIndex++;
+	_currentIndex++; 
 
 }
+
+
+void ConstantBuffer::SetGlobalData(void* buffer, uint32 size)
+{
+	assert(_elementSize == ((size + 255) & ~255));
+	::memcpy(&_mappedBuffer[0], buffer, size); // 0번에다가 무조건 데이터를 때려박고.
+	CMD_LIST->SetGraphicsRootConstantBufferView(0, GetGpuVirtualAddress(0));
+}
+
 
 D3D12_GPU_VIRTUAL_ADDRESS ConstantBuffer::GetGpuVirtualAddress(uint32 index)
 {

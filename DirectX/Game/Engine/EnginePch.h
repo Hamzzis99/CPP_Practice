@@ -142,6 +142,10 @@ public:							\
 
 struct TransformParams
 {
+	Matrix matWorld; 
+	Matrix matView; 
+	Matrix matProjection; 
+	Matrix matWV; 
 	Matrix matWVP; // WVP를 적용한 것.
 };
 

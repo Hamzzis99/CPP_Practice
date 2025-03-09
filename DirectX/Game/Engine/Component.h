@@ -6,6 +6,7 @@ enum class COMPONENT_TYPE : uint8 //컴포넌트는 게임 오브젝트들을 넣는다?
 	TRANSFORM,
 	MESH_RENDERER,
 	CAMERA,
+	LIGHT,
 	// ...
 	MONO_BEHAVIOUR, // 꼭 마지막에 등장해야한다 이유는?
 	END,

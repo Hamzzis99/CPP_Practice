@@ -364,6 +364,8 @@ namespace DirectX
             Vector4& operator*= (const Vector4& V) noexcept;
             Vector4& operator*= (float S) noexcept;
             Vector4& operator/= (float S) noexcept;
+            //벡터3를 받게 되면 벡터4로 변환해주는 것.
+            Vector4& operator=(const Vector3& V) noexcept { x = V.x; y = V.y; z = V.z; w = 0.f; return *this; }
 
             // Unary operators
             Vector4 operator+ () const noexcept { return *this; }

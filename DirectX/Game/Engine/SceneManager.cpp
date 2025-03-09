@@ -26,17 +26,8 @@ void SceneManager::Update() // 업데이트 부분은 여기다가.
 //TEMP 임시로 정한 것.
 void SceneManager::Render()
 {
-	if (_activeScene == nullptr)
-		return;
-
-	const vector<shared_ptr<GameObject>>& gameObjects = _activeScene->GetGameObjects();
-	for (auto& gameObject : gameObjects)
-	{
-		if (gameObject->GetCamera() == nullptr) 
-			continue;
-
-		gameObject->GetCamera()->Render(); // 카메라를 찾게 되면 여기서 랜더한다...zz
-	}
+	if (_activeScene)
+		_activeScene->Render();
 }
 
 
