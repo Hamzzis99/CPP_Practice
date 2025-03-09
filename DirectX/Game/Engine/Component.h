@@ -1,4 +1,5 @@
 #pragma once
+#include "Object.h"
 
 enum class COMPONENT_TYPE : uint8 //컴포넌트는 게임 오브젝트들을 넣는다?
 {
@@ -18,7 +19,7 @@ enum
 class GameObject;
 class Transform;
 
-class Component
+class Component :public Object
 {
 public:
 	Component(COMPONENT_TYPE type); // 컴포넌트 타입

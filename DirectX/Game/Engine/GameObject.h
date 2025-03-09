@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Object.h"
 
 //전방선언
 class Transform;
@@ -7,7 +8,7 @@ class MeshRenderer;
 class MonoBehaviour;
 class Camera;
 
-class GameObject : public enable_shared_from_this<GameObject> //상속하는 이유 :
+class GameObject : public Object, public enable_shared_from_this<GameObject> //상속하는 이유 :
 {
 public:
 	GameObject();

@@ -2,16 +2,28 @@
 #include "Shader.h"
 #include "Engine.h"
 
+Shader::Shader() : Object(OBJECT_TYPE::SHADER)
+{
+
+}
+
+Shader::~Shader()
+{
+
+}
+
 void Shader::Init(const wstring& path)
 {
 	CreateVertexShader(path, "VS_Main", "vs_5_0");
 	CreatePixelShader(path, "PS_Main", "ps_5_0");
 
-	D3D12_INPUT_ELEMENT_DESC desc[] =
+	D3D12_INPUT_ELEMENT_DESC desc[] = // 아래 12와 28은 메모리 시작 지점을 뜻하는 거임. 계산하는 건 나중에.
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		//아래에 있는 것들은 데이터들은 방향벡터를 뜻함.
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 20, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	_pipelineDesc.InputLayout = { desc, _countof(desc) };

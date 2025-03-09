@@ -10,6 +10,7 @@
 #include "Camera.h"
 
 #include "TestCameraScript.h"
+#include "Resources.h"
 
 void SceneManager::Update() // 업데이트 부분은 여기다가.
 {
@@ -54,71 +55,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene() // 카메라의 역할을 해줄 코드를 �
 {
 	shared_ptr<Scene> scene = make_shared<Scene>();
 
-
-	// TestObject pragma region TestObject 영역지정
-#pragma region TestObject //아아
-	shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-
-	vector<Vertex> vec(4);
-	vec[0].pos = Vec3(-0.5f, 0.5f, 0.5f);
-	vec[0].color = Vec4(1.f, 0.f, 0.f, 1.f);
-	vec[0].uv = Vec2(0.f, 0.f);
-	vec[1].pos = Vec3(0.5f, 0.5f, 0.5f);
-	vec[1].color = Vec4(0.f, 1.f, 0.f, 1.f);
-	vec[1].uv = Vec2(1.f, 0.f);
-	vec[2].pos = Vec3(0.5f, -0.5f, 0.5f);
-	vec[2].color = Vec4(0.f, 0.f, 1.f, 1.f);
-	vec[2].uv = Vec2(1.f, 1.f);
-	vec[3].pos = Vec3(-0.5f, -0.5f, 0.5f);
-	vec[3].color = Vec4(0.f, 1.f, 0.f, 1.f);
-	vec[3].uv = Vec2(0.f, 1.f);
-
-	vector<uint32> indexVec;
-	{
-		indexVec.push_back(0);
-		indexVec.push_back(1);
-		indexVec.push_back(2);
-	}
-	{
-		indexVec.push_back(0);
-		indexVec.push_back(2);
-		indexVec.push_back(3);
-	}
-
-	gameObject->AddComponent(make_shared<Transform>()); //Transform 추가
-
-	//좌표 세팅
-	shared_ptr<Transform> transform = gameObject->GetTransform();
-	transform->SetLocalPosition(Vec3(0.f, 100.f, 200.f));
-	transform->SetLocalScale(Vec3(100.f, 100.f, 1.f));
-
-
-	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-	{
-		shared_ptr<Mesh> mesh = make_shared<Mesh>();
-		mesh->Init(vec, indexVec);
-		meshRenderer->SetMesh(mesh);
-	}
-
-	{
-		shared_ptr<Shader> shader = make_shared<Shader>();
-		shared_ptr<Texture> texture = make_shared<Texture>();
-		shader->Init(L"..\\Resources\\Shader\\default.hlsli");
-		texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
-		shared_ptr<Material> material = make_shared<Material>();
-		material->SetShader(shader);
-		material->SetFloat(0, 0.3f);
-		material->SetFloat(1, 0.4f);
-		material->SetFloat(2, 0.3f);
-		material->SetTexture(0, texture);
-		meshRenderer->SetMaterial(material);
-	}
-
-	gameObject->AddComponent(meshRenderer);
-
-	scene->AddGameObject(gameObject);
-#pragma endregion
-
+	//컴포넌트의 기본. 한 번 다시 복습할 필요가 있음. 매우 중요하다 함.
 #pragma region Camera
 	shared_ptr<GameObject> camera = make_shared<GameObject>();
 	camera->AddComponent(make_shared<Transform>());
@@ -126,6 +63,58 @@ shared_ptr<Scene> SceneManager::LoadTestScene() // 카메라의 역할을 해줄 코드를 �
 	camera->AddComponent(make_shared<TestCameraScript>()); // 카메라 스크립트 넣는 부분.
 	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 100.f, 0.f));
 	scene->AddGameObject(camera);
+#pragma endregion
+
+#pragma region Sphere
+	{
+		shared_ptr<GameObject> sphere = make_shared<GameObject>(); //게임 오브젝트 하나를 만듦
+		sphere->AddComponent(make_shared<Transform>()); 
+		sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+		sphere->GetTransform()->SetLocalPosition(Vec3(0.f, 100.f, 200.f));
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> sphereMesh = GET_SINGLE(Resources)->LoadSphereMesh(); // vertex index 정보를 resource에 접근하는 것.
+			meshRenderer->SetMesh(sphereMesh);
+		}
+		{
+			shared_ptr<Shader> shader = make_shared<Shader>();
+			shared_ptr<Texture> texture = make_shared<Texture>();
+			shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+			texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		sphere->AddComponent(meshRenderer);
+		scene->AddGameObject(sphere);
+	}
+#pragma endregion
+
+#pragma region Cube
+	{
+		shared_ptr<GameObject> sphere = make_shared<GameObject>();
+		sphere->AddComponent(make_shared<Transform>());
+		sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+		sphere->GetTransform()->SetLocalPosition(Vec3(150.f, 100.f, 200.f));
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> sphereMesh = GET_SINGLE(Resources)->LoadCubeMesh();
+			meshRenderer->SetMesh(sphereMesh);
+		}
+		{
+			shared_ptr<Shader> shader = make_shared<Shader>();
+			shared_ptr<Texture> texture = make_shared<Texture>();
+			shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+			texture->Init(L"..\\Resources\\Texture\\veigar.jpg");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		sphere->AddComponent(meshRenderer);
+		scene->AddGameObject(sphere);
+	}
 #pragma endregion
 
 	return scene; // 방금 만들어준 scene 반환.

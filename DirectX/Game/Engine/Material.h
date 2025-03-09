@@ -1,4 +1,5 @@
 #pragma once
+#include "object.h"
 
 // materials <- 쉐이더들을 어떤식으로 그려줄지 정해준 것 (프리셋이라고 보면 되나?)
 
@@ -23,9 +24,12 @@ struct MaterialParams
 	array<float, MATERIAL_FLOAT_COUNT> floatParams; 
 };
 
-class Material
+class Material : public Object
 {
 public:
+	Material();
+	virtual ~Material();
+
 	shared_ptr<Shader> GetShader() { return _shader; }
 
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }

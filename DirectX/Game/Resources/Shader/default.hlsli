@@ -30,14 +30,12 @@ SamplerState sam_0 : register(s0);
 struct VS_IN
 {
     float3 pos : POSITION;
-    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
 struct VS_OUT
 {
     float4 pos : SV_Position;
-    float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
 
@@ -48,7 +46,6 @@ VS_OUT VS_Main(VS_IN input)
     // float4를 곱해준 다음에 matwvp와 계산하여 행렬을 구해준다. 
     // 1의 의미는 그냥 좌표의 방향성.
     output.pos = mul(float4(input.pos, 1.f), matWVP); 
-    output.color = input.color;
     output.uv = input.uv;
 
     return output;
@@ -56,6 +53,6 @@ VS_OUT VS_Main(VS_IN input)
 
 float4 PS_Main(VS_OUT input) : SV_Target
 {
-    float4 color = tex_0.Sample(sam_0, input.uv);
+    float4 color = tex_0.Sample(sam_0, input.uv); //uv를 이용하여 컬러를 계산하는중.
     return color;
 }
